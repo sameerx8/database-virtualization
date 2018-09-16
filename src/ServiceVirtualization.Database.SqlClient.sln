@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVirtualization.Database.SqlClient", "ServiceVirtualization.Database.SqlClient\ServiceVirtualization.Database.SqlClient.csproj", "{2CBCC69F-170F-4463-8AA9-27D10FB2593E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVirtualization.Database.Tests", "ServiceVirtualization.Database.Tests\ServiceVirtualization.Database.Tests.csproj", "{D24DF30F-E01F-4722-A24B-F8207EE62C2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CBCC69F-170F-4463-8AA9-27D10FB2593E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CBCC69F-170F-4463-8AA9-27D10FB2593E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CBCC69F-170F-4463-8AA9-27D10FB2593E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CBCC69F-170F-4463-8AA9-27D10FB2593E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24DF30F-E01F-4722-A24B-F8207EE62C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24DF30F-E01F-4722-A24B-F8207EE62C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24DF30F-E01F-4722-A24B-F8207EE62C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24DF30F-E01F-4722-A24B-F8207EE62C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22BA8E4C-F488-4EE4-A9CC-AE7DBBF4C19A}
+	EndGlobalSection
+EndGlobal
