@@ -14,7 +14,8 @@ using ServiceVirtualization.Database.SqlClient;
 
 namespace ServiceVirtualization.Database.SqlClient
 {
-    public enum DatabaseVirtualizationMode {
+    public enum DatabaseVirtualizationMode
+    {
         None,
         Record,
         Playback
@@ -37,7 +38,7 @@ namespace ServiceVirtualization.Database.SqlClient
     {
         public DbConnection CreateSqlConnection(string connectionString)
         {
-            return new ServiceVirtSqlConnection(connectionString, DatabaseVirtualizationMode.Record); 
+            return new ServiceVirtSqlConnection(connectionString, DatabaseVirtualizationMode.Record);
         }
     }
 
@@ -45,7 +46,8 @@ namespace ServiceVirtualization.Database.SqlClient
     {
         private readonly DatabaseVirtualizationMode _mode;
 
-        public ServiceVirtSqlConnection(string connectionString, DatabaseVirtualizationMode mode) {
+        public ServiceVirtSqlConnection(string connectionString, DatabaseVirtualizationMode mode)
+        {
             _mode = mode;
             ConnectionString = connectionString;
         }
@@ -78,7 +80,8 @@ namespace ServiceVirtualization.Database.SqlClient
 
         protected override DbCommand CreateDbCommand()
         {
-            switch (_mode) {
+            switch (_mode)
+            {
                 case DatabaseVirtualizationMode.Playback:
                     return new ServiceVirtPlaybackDbCommand();
 

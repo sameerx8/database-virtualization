@@ -15,7 +15,6 @@ namespace ServiceVirtualization.Database.SqlClient
     public class ServiceVirtMountebankPublisher
     {
         private static ConcurrentDictionary<string, List<VirtSqlRpcModel>> _recordedCommands = new ConcurrentDictionary<string, List<VirtSqlRpcModel>>();
-        private static HttpClient _httpClient = new HttpClient();
 
         public static void AddRecordedCommand(VirtSqlRpcModel model)
         {
@@ -24,9 +23,6 @@ namespace ServiceVirtualization.Database.SqlClient
                 list.Add(model);
                 return list;
             });
-
-            //TODO: PUT to replace all imposters with all recordings each time a new one is added.
-            //this is because the imposters list is immutable
 
             var mountebankClient = new MountebankClient();
 
@@ -51,12 +47,9 @@ namespace ServiceVirtualization.Database.SqlClient
                         .On(containsPredicate)
                         .ReturnsJson(HttpStatusCode.OK, response);
                 }
-
             }
 
             mountebankClient.Submit(imposter);
-
-
         }
     }
 }

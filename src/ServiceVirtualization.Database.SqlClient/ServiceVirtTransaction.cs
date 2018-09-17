@@ -2,7 +2,8 @@
 using System.Data;
 using System.Data.Common;
 
-namespace ServiceVirtualization.Database.SqlClient {
+namespace ServiceVirtualization.Database.SqlClient
+{
     public class ServiceVirtTransaction : DbTransaction
     {
         public override void Commit() { }

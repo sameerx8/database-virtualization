@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 
-namespace ServiceVirtualization.Database.SqlClient {
+namespace ServiceVirtualization.Database.SqlClient
+{
     public class VirtSqlRpcModel
     {
-        public VirtSqlRpcModel() {
+        public VirtSqlRpcModel()
+        {
             Parameters = new Dictionary<string, object>();
             Resultsets = new List<List<Dictionary<string, object>>>();
             Results = new List<Result>();
         }
 
-        public VirtSqlRpcModel(string storedProcName) : this() {
+        public VirtSqlRpcModel(string storedProcName) : this()
+        {
             StoredProcName = storedProcName;
 
         }
@@ -32,7 +35,8 @@ namespace ServiceVirtualization.Database.SqlClient {
         public long DelayMs { get; set; }
     }
 
-    public class Result {
+    public class Result
+    {
         public DataTable SchemaTable { get; set; }
         public DataTable Data { get; set; }
     }

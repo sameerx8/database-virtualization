@@ -11,7 +11,6 @@ namespace ServiceVirtualization.Database.SqlClient
     {
         public static SqlException CreateSqlException(string errorMessage, int errorNumber, int state = 0, int severity = 10,
             int lineNumber = 0, string server = "ServiceVirt", string procedureName = "ServiceVirtUnknownProcName")
-
         {
 
             SqlErrorCollection collection = GetErrorCollection();
@@ -30,8 +29,8 @@ namespace ServiceVirtualization.Database.SqlClient
             return exception;
         }
 
-        private static SqlError GetError(int errorCode, string message, int state=0, int severity=10, 
-            int lineNumber=0, string server="ServiceVirt", string procedureName="ServiceVirtUnknownProcName")
+        private static SqlError GetError(int errorCode, string message, int state = 0, int severity = 10,
+            int lineNumber = 0, string server = "ServiceVirt", string procedureName = "ServiceVirtUnknownProcName")
         {
             //  internal SqlError(int infoNumber, byte errorState, byte errorClass, string server, string errorMessage, string procedure, int lineNumber) 
             object[] parameters = new object[] { errorCode, (byte)state, (byte)severity, server, message, procedureName, lineNumber, null };
@@ -41,7 +40,7 @@ namespace ServiceVirtualization.Database.SqlClient
                 typeof(string), typeof(int), typeof(Exception) };
 
 
-            ConstructorInfo constructor = typeof(SqlError).GetConstructor(BindingFlags.NonPublic| BindingFlags.Instance, null, types, null);
+            ConstructorInfo constructor = typeof(SqlError).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, types, null);
 
             SqlError error = (SqlError)constructor.Invoke(parameters);
 

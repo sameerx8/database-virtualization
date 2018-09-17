@@ -82,7 +82,7 @@ namespace ServiceVirtualization.Database.SqlClient
             {
                 if (sqlParameter.Direction == ParameterDirection.ReturnValue)
                 {
-                    virtModel.ReturnCode = (int)(sqlParameter.Value??0);
+                    virtModel.ReturnCode = (int)(sqlParameter.Value ?? 0);
                     continue;
                 }
 
@@ -122,7 +122,8 @@ namespace ServiceVirtualization.Database.SqlClient
             _wrappedSqlCommand.Parameters.Add(returnValue);
         }
 
-        public override Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken) {
+        public override Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
+        {
             return Task.FromResult(ExecuteNonQuery());
         }
 
@@ -136,7 +137,8 @@ namespace ServiceVirtualization.Database.SqlClient
             return Task.FromResult(default(object));
         }
 
-        protected override Task<DbDataReader> ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) {
+        protected override Task<DbDataReader> ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+        {
             return Task.FromResult(ExecuteDbDataReader(behavior));
         }
 
@@ -168,9 +170,11 @@ namespace ServiceVirtualization.Database.SqlClient
 
                     var sw = Stopwatch.StartNew();
 
-                    using (var reader = _wrappedSqlCommand.ExecuteReader()) {
-                         
-                        do {
+                    using (var reader = _wrappedSqlCommand.ExecuteReader())
+                    {
+
+                        do
+                        {
 
                             var schema = CreateSchemaTable(reader);
 
@@ -189,24 +193,27 @@ namespace ServiceVirtualization.Database.SqlClient
 
                     virtModel.DelayMs = sw.ElapsedMilliseconds;
 
-                    ServiceVirtMountebankPublisher.AddRecordedCommand(virtModel); 
+                    ServiceVirtMountebankPublisher.AddRecordedCommand(virtModel);
                 }
             }
 
             return dataSet.CreateDataReader();
         }
 
-        private static void AddResultToVirtModel(VirtSqlRpcModel virtModel, DataTable data, DataTable schema) {
-            virtModel.Results.Add(new Result {Data = data, SchemaTable = schema});
+        private static void AddResultToVirtModel(VirtSqlRpcModel virtModel, DataTable data, DataTable schema)
+        {
+            virtModel.Results.Add(new Result { Data = data, SchemaTable = schema });
         }
-         
-        private static DataTable CreateAndLoadDataTable(SqlDataReader reader) {
+
+        private static DataTable CreateAndLoadDataTable(SqlDataReader reader)
+        {
             var data = new DataTable();
             data.Load(reader);
             return data;
         }
 
-        private static DataTable CreateSchemaTable(SqlDataReader reader) {
+        private static DataTable CreateSchemaTable(SqlDataReader reader)
+        {
             var schema = reader.GetSchemaTable();
             return schema;
         }

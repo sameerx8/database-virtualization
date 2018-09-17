@@ -43,37 +43,44 @@ namespace ServiceVirtualization.Database.SqlClient
         public override void Cancel() { }
 
 
-        public override int ExecuteNonQuery() {
+        public override int ExecuteNonQuery()
+        {
             return ExecuteNonQueryAsync(CancellationToken.None).Result;
         }
 
-        public override async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken) {
+        public override async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
+        {
             var virtModel = await ProcessVirtService(cancellationToken);
 
             return virtModel.RowsAffected;
         }
 
-        private async Task<VirtSqlRpcModel> ProcessVirtService(CancellationToken cancellationToken) {
+        private async Task<VirtSqlRpcModel> ProcessVirtService(CancellationToken cancellationToken)
+        {
             var response = await virtualServiceHttpClient.GetAsync(CommandText, cancellationToken);
 
             var virtModel = JsonConvert.DeserializeObject<VirtSqlRpcModel>(await response.Content.ReadAsStringAsync());
 
             if (virtModel == null) throw new InvalidOperationException("Virtual service returned invalid response");
 
-            if (virtModel.DelayMs > 0) await Task.Delay((int) virtModel.DelayMs, cancellationToken);
+            if (virtModel.DelayMs > 0) await Task.Delay((int)virtModel.DelayMs, cancellationToken);
 
-            if (virtModel.Error != null) {
+            if (virtModel.Error != null)
+            {
                 throw ServiceVirtSqlException.CreateSqlException(virtModel.Error.Message, virtModel.Error.Code,
                     virtModel.Error.State, virtModel.Error.Severity, virtModel.Error.LineNumber, virtModel.Error.Server,
                     virtModel.Error.ProcedureName);
             }
 
-            foreach (DbParameter parameter in DbParameterCollection) {
-                if (virtModel.Parameters.ContainsKey(parameter.ParameterName)) {
+            foreach (DbParameter parameter in DbParameterCollection)
+            {
+                if (virtModel.Parameters.ContainsKey(parameter.ParameterName))
+                {
                     parameter.Value = virtModel.Parameters[parameter.ParameterName];
                 }
 
-                if (parameter.Direction == ParameterDirection.ReturnValue) {
+                if (parameter.Direction == ParameterDirection.ReturnValue)
+                {
                     parameter.Value = virtModel.ReturnCode;
                 }
             }
@@ -91,27 +98,31 @@ namespace ServiceVirtualization.Database.SqlClient
             return Task.FromResult(default(object));
         }
 
-        protected override async Task<DbDataReader> ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) {
+        protected override async Task<DbDataReader> ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+        {
             var virtModel = await ProcessVirtService(cancellationToken);
 
             var ds = new DataSet();
 
-            foreach (var virtModelResult in virtModel.Results) {
+            foreach (var virtModelResult in virtModel.Results)
+            {
                 var schemaTable = new DataTable();
 
-                foreach (DataRow row in virtModelResult.SchemaTable.Rows) {
+                foreach (DataRow row in virtModelResult.SchemaTable.Rows)
+                {
                     var columnName = row["ColumnName"].ToString();
                     var dataType = Type.GetType(row["DataType"].ToString());
-                      
+
                     schemaTable.Columns.Add(columnName, dataType);
                 }
 
-                foreach (DataRow row in virtModelResult.Data.Rows) {
+                foreach (DataRow row in virtModelResult.Data.Rows)
+                {
                     schemaTable.Rows.Add(row.ItemArray);
                 }
 
                 ds.Tables.Add(schemaTable);
-            } 
+            }
 
             return ds.CreateDataReader();
         }
@@ -123,7 +134,8 @@ namespace ServiceVirtualization.Database.SqlClient
             return new ServiceVirtDbParameter();
         }
 
-        protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior) {
+        protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
+        {
             return ExecuteDbDataReaderAsync(behavior, CancellationToken.None).Result;
         }
     }

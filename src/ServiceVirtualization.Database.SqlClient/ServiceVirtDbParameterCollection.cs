@@ -5,21 +5,27 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ServiceVirtualization.Database.SqlClient {
-    public class ServiceVirtDbParameterCollection : DbParameterCollection {
+namespace ServiceVirtualization.Database.SqlClient
+{
+    public class ServiceVirtDbParameterCollection : DbParameterCollection
+    {
         private List<DbParameter> _items;
 
-        public ServiceVirtDbParameterCollection()  {
+        public ServiceVirtDbParameterCollection()
+        {
             _items = new List<DbParameter>();
         }
 
-        override public int Count {
-            get {
+        override public int Count 
+        {
+            get 
+            {
                 return ((null != _items) ? _items.Count : 0);
             }
         }
 
-        public void AddWithValue(string parameterName, object value) {
+        public void AddWithValue(string parameterName, object value)
+        {
             CheckParameterNameArg(parameterName);
 
             if (ParameterExists(parameterName)) return;
@@ -27,25 +33,30 @@ namespace ServiceVirtualization.Database.SqlClient {
             AddParameter(parameterName, value);
         }
 
-        private void AddParameter(string parameterName, object value) {
-            _items.Add(new ServiceVirtDbParameter {ParameterName = parameterName, Value = value});
+        private void AddParameter(string parameterName, object value)
+        {
+            _items.Add(new ServiceVirtDbParameter { ParameterName = parameterName, Value = value });
         }
 
-        private void AddParameter(string parameterName) {
-            _items.Add(new ServiceVirtDbParameter {ParameterName = parameterName});
+        private void AddParameter(string parameterName)
+        {
+            _items.Add(new ServiceVirtDbParameter { ParameterName = parameterName });
         }
 
-        private static void CheckParameterNameArg(string parameterName) {
+        private static void CheckParameterNameArg(string parameterName)
+        {
             if (string.IsNullOrWhiteSpace(parameterName)) throw new ArgumentNullException(nameof(parameterName));
         }
 
-        private bool ParameterExists(string parameterName) {
+        private bool ParameterExists(string parameterName)
+        {
             if (_items.Any(param =>
                 param.ParameterName.Equals(parameterName, StringComparison.OrdinalIgnoreCase))) return true;
             return false;
         }
 
-        public void Add(string parameterName) {
+        public void Add(string parameterName)
+        {
             CheckParameterNameArg(parameterName);
 
             if (ParameterExists(parameterName)) return;
@@ -65,7 +76,6 @@ namespace ServiceVirtualization.Database.SqlClient {
                 return items;
             }
         }
-
 
         override public object SyncRoot {
             get {
@@ -121,7 +131,8 @@ namespace ServiceVirtualization.Database.SqlClient {
             return (-1 != IndexOf(value));
         }
 
-        public override bool Contains(string value) {
+        public override bool Contains(string value)
+        {
             throw new NotImplementedException();
         }
 
@@ -169,7 +180,7 @@ namespace ServiceVirtualization.Database.SqlClient {
 
                 foreach (DbParameter parameter in items)
                 {
-                    if (0 == parameterName.CompareTo( parameter.ParameterName))
+                    if (0 == parameterName.CompareTo(parameter.ParameterName))
                     {
                         return i;
                     }
@@ -220,7 +231,7 @@ namespace ServiceVirtualization.Database.SqlClient {
         {
             if ((index < 0) || (Count <= index))
             {
-                throw new Exception ("RangeCheck");
+                throw new Exception("RangeCheck");
             }
         }
 
