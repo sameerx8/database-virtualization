@@ -175,7 +175,6 @@ namespace ServiceVirtualization.Database.SqlClient
 
                         do
                         {
-
                             var schema = CreateSchemaTable(reader);
 
                             var data = CreateAndLoadDataTable(reader);
@@ -214,8 +213,8 @@ namespace ServiceVirtualization.Database.SqlClient
 
         private static DataTable CreateSchemaTable(SqlDataReader reader)
         {
-            var schema = reader.GetSchemaTable();
-            return schema;
+            return reader.GetSchemaTable();
+
         }
     }
 }
